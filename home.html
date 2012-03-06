@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>FanFou Oauth2.0 Demo</title>
+        <link rel="stylesheet" href="/static/css/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="/static/css/print.css" type="text/css" media="print">
+        <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/ffoauth2demo.js"></script>
+        <style  type="text/css"> 
+            #error {color: red;}
+            #content {
+            width: 90%;
+            height: 5em;
+            }
+            .elem_warp {
+            padding-left: 2em;
+            }
+            pre {
+        	font-family: monaco,monospace,courier;
+            }
+            .cdata {
+            color: green;
+            }
+            .tag {
+        	color: blue;
+            }
+            .ctag {
+        	color: red;
+            }
+            #formated span {
+            line-height: 120%;
+            }
+            .objblk {
+            padding-left: 2em;
+            background-color: #e5ecf9;
+            }
+            .string {
+        	color: #0B7500;
+            }
+            .comma {
+            padding-left: 20px;
+            margin-left: -20px;
+            position: relative;
+            }
+            .boolean {
+            color: red;
+            }
+            .number {
+            color: blue;
+            }
+            .bracket {
+            /*display: block;*/
+            }
+            #origin {
+            display: none;
+            }
+        </style> 
+    </head>
+
+    <body>
+        {% if access_token %}
+        <h1>Access Token</h1>
+
+        <h2>Now we got the access token from server</h2>
+        <div class="notice">
+            <span id="access_token" rel="{{ access_token }}">Access token: {{ access_token }}</span>
+            <br />
+            <span id="refresh_token" rel="{{ refresh_token }}">Refresh token: {{ refresh_token }}</span>
+            <br />
+            <span>Expires_in: {{ expires_in }}</span>
+            <p id="api_server" class="hide">{{ api_server }}</p>
+            <p id="access_token_uri" class="hide">{{ access_token_uri }}</p>
+            <p id="client_id" class="hide">{{ client_id }}</p>
+            <p id="client_secret" class="hide">{{ client_secret }}</p>
+        </div>
+
+        <h2>You Can:</h2>
+
+        <h3>Access the protected resource using access token</h3>
+        Add <b class="added">oauth_token={{ access_token }}</b> in <b class="added">POST/GET</b> params,
+        then you can retrieve the protected resource on api server.
+
+        <h4>GET</h4>
+
+        e.g.
+        <br />
+        <div class="hide"></div>
+        <br />
+        <span class="code_snip box">curl &#34;{{ api_server }}/account/verify_credentials.json?oauth_token={{ access_token }}&#34;</span>
+        
+        <br />
+        <div class="hide"></div>
+        <br />
+        <p><a href="#" id="auth_via_get" class="token_demo">click</a> to get your user info from server via get(json format)</p>
+
+        <h4>POST</h4>
+
+        e.g.
+        <br />
+        <div class="hide"></div>
+        <br />
+        <span class="code_snip box">curl &#34;{{ api_server }}/account/verify_credentials.json&#34; -d &#34;oauth_token={{ access_token }}&#34;</span>
+        <br />
+        <div class="hide"></div>
+        <br />
+        <p><a href="#" id="auth_via_post" class="token_demo">click</a> to get your user info from server via post (json format)</p>
+
+        <h3>Refresh the access token after token expanded</h3>
+        Post <b class="added">client_id</b>,<b class="added">client_secret</b>,<b class="added">redirect_uri</b>,<b class="added">grant_type</b>,<b class="added">refresh_token</b> to <b class="added">fanfou.com/oauth2.token</b>, then you refresh the ACCESS TOKEN if you access token is expanded.
+        <br />
+        e.g.
+        <br />
+        <div class="hide"></div>
+        <br />
+        <div class="code_snip box">curl &#34;{{ access_token_uri }}&#34; -d&#34;client_id={{ client_id }}&client_secret={{ client_secret }}&redirect_uri={{ redirect_uri }}&grant_type=refresh_token&refresh_token={{ refresh_token }}&#34;</div>
+        <p><a href="#" id="refresh_via_post" class="token_demo">click</a> to refresh access token from server via post (json format)</p>
+        {% else %}
+        <h1>Fanfou.com OAuth2.0 demo</h1>
+        <p class="notice">this demo will how you how to user OAuth2.0 to connect to fanfou.com</p>
+        <br />
+        <a href="/oauth2/authorize" class="push-1 large">Connect to fanfou.com</a>
+        {% endif %}
+       
+    </body>
+</html>
