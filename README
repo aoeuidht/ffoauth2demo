@@ -1,0 +1,6 @@
+饭否OAuth2 Demo
+
+HowTo:
+    1. 更改 ffoauth2client.py顶端的CLIENT_ID, CLIENT_SECRET为你申请的token、secret.
+    2. 使用google app engine 运行这个app
+    3. visit http://127.0.0.1:8080
